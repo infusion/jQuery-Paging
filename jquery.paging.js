@@ -231,7 +231,6 @@
 				}
 
 				this.format = parseFormat(this.opts["format"]);
-			//console.log(this.format);
 			},
 
 			"setNumber": function(number) {
@@ -256,9 +255,9 @@
 
 				var rStart, rStop;
 
-				var pages, real, buffer;
+				var pages, buffer;
 
-				var groups = 0, format = this.format;
+				var groups = 1, format = this.format;
 
 				var data, tmp, node, lapping;
 
@@ -278,38 +277,27 @@
 
 					number = -1;
 					pages = -1;
-					//real = -1;
 
-					rStart = Math.max(1, page - format.current + 1);
+					rStart = Math.max(1, page - format.current + 1 - lapping);
 					rStop  = rStart + format.blockwide;
 
 				} else {
 
-					if (0 < lapping) {
-
-						// Calculate the number of pages with lapping and the number of virtual elements
-						pages = 1 + Math.ceil((number - opts["perpage"]) / (opts["perpage"] - lapping));
-					//real = number + (opts["perpage"] - 1) * lapping;
-
-					} else {
-
-						// If no lapping is given, calculate the number of pages directly
-						pages = Math.ceil(number / opts["perpage"]);
-					//real = number;
-					}
+					// Calculate the number of pages
+					pages = 1 + Math.ceil((number - opts["perpage"]) / (opts["perpage"] - lapping));
 
 					// If current page is negative, start at the end
 					if (page < 0) {
 						page+= 1 + pages;
 					}
 
-					// Set the current page into a valid range, includes === 0, which is set to 1
+					// Set the current page into a valid range, includes 0, which is set to 1
 					page = Math.max(1, Math.min(page, pages));
 
 					// Do we need to print all numbers?
 					if (format.asterisk) {
 						rStart = 1;
-						rStop = 1 + pages;
+						rStop  = 1 + pages;
 
 						// Disable :first and :last for asterisk mode as we see all buttons
 						format.current   = page;
@@ -354,19 +342,15 @@
 					groups|= tmp << node.group; // group visible?
 				}
 
-				// all elements not member of a group are visible; safes a lot of branches
-				groups|= 1;
-
 				data = {
 					"number"	: number,	// number of elements
-					//"ext"		: real,		// number of elements used internally (expanded version)
 					"lapping"	: lapping,	// overlapping
 					"pages"		: pages,	// number of pages
 					"perpage"	: opts["perpage"], // number of elements per page
 					"page"		: page,		// current page
 					"slice"		: [			// two element array with bounds of the current page selection
-					(tmp = page * (opts["perpage"] - lapping) + lapping) - opts["perpage"], // Lower bound
-					Math.min(tmp, number) // Upper bound
+						(tmp = page * (opts["perpage"] - lapping) + lapping) - opts["perpage"], // Lower bound
+						Math.min(tmp, number) // Upper bound
 					]
 				};
 
