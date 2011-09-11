@@ -231,10 +231,12 @@
 				}
 
 				this.format = parseFormat(this.opts["format"]);
+				return this;
 			},
 
 			"setNumber": function(number) {
 				this.number = (undefined === number || number < 0) ? -1 : number;
+				return this;
 			},
 
 			"setPage": function(page) {
@@ -242,11 +244,11 @@
 				if (undefined === page) {
 
 					if (page = this.opts["page"], null === page) {
-						return;
+						return this;
 					}
 
 				} else if (this.opts["page"] == page) {
-					return;
+					return this;
 				}
 
 				this.opts["page"] = (page|= 0);
@@ -286,13 +288,9 @@
 					// Calculate the number of pages
 					pages = 1 + Math.ceil((number - opts["perpage"]) / (opts["perpage"] - lapping));
 
-					// If current page is negative, start at the end
-					if (page < 0) {
-						page+= 1 + pages;
-					}
-
+					// If current page is negative, start at the end and
 					// Set the current page into a valid range, includes 0, which is set to 1
-					page = Math.max(1, Math.min(page, pages));
+					page = Math.max(1, Math.min(page < 0 ? 1 + pages + page : page, pages));
 
 					// Do we need to print all numbers?
 					if (format.asterisk) {
@@ -455,6 +453,7 @@
 					"pages"		: pages,
 					"slice"		: data["slice"]
 				}, page);
+				return this;
 			}
 		};
 
@@ -470,11 +469,10 @@
 			}
 		}
 
-		Paging["setNumber"](number);
-		Paging["setOptions"](opts);
-		Paging["setPage"]();
-
-		return Paging;
+		return Paging
+			["setNumber"](number)
+			["setOptions"](opts)
+			["setPage"]();
 	}
 
 }(jQuery, this));
