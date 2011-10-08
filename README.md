@@ -32,26 +32,26 @@ In order to use the Paging plugin, you're done by defining the following simple 
 	        },
 	        onFormat: function(type) {
 
-	                switch (type) {
-	                case 'block':
+			switch (type) {
+			case 'block':
 
-        	                if (!this.active)
-        	                        return '<span class="disabled">' + this.value + '</span>';
-        	                else if (this.value != this.page)
-        	                        return '<em><a href="#' + this.value + '">' + this.value + '</a></em>';
-        	                return '<span class="current">' + this.value + '</span>';
+				if (!this.active)
+					return '<span class="disabled">' + this.value + '</span>';
+				else if (this.value != this.page)
+					return '<em><a href="#' + this.value + '">' + this.value + '</a></em>';
+				return '<span class="current">' + this.value + '</span>';
 
-        	        case 'next':
+			case 'next':
 
-        	                if (this.active) {
-        	                        return '<a href="#' + this.value + '" class="next">Next »</a>';
-        	                }
-        	                return '<span class="disabled">Next »</span>';
+				if (this.active) {
+					return '<a href="#' + this.value + '" class="next">Next »</a>';
+				}
+				return '<span class="disabled">Next »</span>';
 
-	                case 'prev':
+			case 'prev':
 
-	                        if (this.active) {
-	                                return '<a href="#' + this.value + '" class="prev">« Previous</a>';
+				if (this.active) {
+					return '<a href="#' + this.value + '" class="prev">« Previous</a>';
 				}
 				return '<span class="disabled">« Previous</span>';
 
@@ -60,7 +60,7 @@ In order to use the Paging plugin, you're done by defining the following simple 
 				if (this.active) {
 					return '<a href="#' + this.value + '" class="first">|<</a>';
 				}
- 				return '<span class="disabled">|<</span>';
+				return '<span class="disabled">|<</span>';
 
 			case 'last':
 
@@ -80,6 +80,6 @@ In order to use the Paging plugin, you're done by defining the following simple 
 
 Examples and documentation
 ==========================
-For further details take a look at the demonstration and documentation page on:
+For further details and code examples take a look at the demonstration and documentation page on:
 
 http://www.xarg.org/2011/09/jquery-pagination-revised/
