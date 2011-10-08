@@ -9,9 +9,9 @@ Usage
 -----
 Include the jquery.paging.min.js in your website and start working. There are no styles shipped with the library, it all depends on your needs and the library only does the link calculations and event management for you, plus a few extra things.
 
-In order to use the Paging plugin, you're done by defining the following simple snippet:::
+In order to use the Paging plugin, you're done by defining the following simple snippet:
 
-	var prev = {start: 0, stop: 0},
+	var prev = [0, 0],
 	    cont = $('#content div.element');
 
 	$(".pagination").paging(cont.length, {
@@ -78,8 +78,8 @@ In order to use the Paging plugin, you're done by defining the following simple 
 	});
 
 
-
-
+Examples and documentation
+==========================
 For further details take a look at the demonstration and documentation page on:
 
 http://www.xarg.org/2011/09/jquery-pagination-revised/
