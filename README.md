@@ -14,7 +14,7 @@ In order to use the Paging plugin, you're done by defining the following simple 
 	var prev = [0, 0],
 	    cont = $('#content div.element');
 
-	$(".pagination").paging(cont.length, {
+	$(".pagination").paging(1337, { // make 1337 elements navigatable
 	        format: '[< ncnnn! >]', // define how the navigation should look like
 	        perpage: 10, // show 10 elements per page
 	        lapping: 0, // don't overlap pages for the moment
