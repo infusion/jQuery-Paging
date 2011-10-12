@@ -1,5 +1,5 @@
 /**
- * @license jQuery paging plugin v1.0 09/04/2011
+ * @license jQuery paging plugin v1.0.1 09/04/2011
  * http://www.xarg.org/project/jquery-color-plugin-xcolor/
  *
  * Copyright (c) 2011, Robert Eisele (robert@xarg.org)
@@ -461,6 +461,14 @@
 			ev["preventDefault"]();
 
 			var obj = ev["target"];
+
+			do {
+
+				if ('a' === obj["nodeName"].toLowerCase()) {
+					break;
+				}
+
+			} while ((obj = obj["parentNode"]));
 
 			Paging["setPage"]($.data(obj, "page"));
 
