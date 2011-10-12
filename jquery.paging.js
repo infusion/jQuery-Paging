@@ -3,6 +3,7 @@
  * http://www.xarg.org/project/jquery-color-plugin-xcolor/
  *
  * Copyright (c) 2011, Robert Eisele (robert@xarg.org)
+ *               2011, Daniel Poulin (crimsonmage@gmail.com)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  **/
 
@@ -461,6 +462,8 @@
 			ev["preventDefault"]();
 
 			var obj = ev["target"];
+
+			if (obj.nodeName.toLowerCase() === 'img') obj = $(ev.target).parent()[0];
 
 			Paging["setPage"]($.data(obj, "page"));
 
