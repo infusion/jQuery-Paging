@@ -27,3 +27,7 @@ Examples and documentation
 For further details and code examples take a look at the demonstration and documentation page on:
 
 http://www.xarg.org/2011/09/jquery-pagination-revised/
+
+License
+======
+Dual licensed under the MIT or GPL Version 2 licenses.
