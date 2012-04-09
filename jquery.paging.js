@@ -208,9 +208,9 @@
 					this.opts["perpage"] = 10;
 				}
 
-				if (this.opts["refresh"]["url"]) {
+				if (this.interval) window.clearInterval(this.interval);
 
-					if (this.interval) window.clearInterval(this.interval);
+				if (this.opts["refresh"]["url"]) {
 
 					this.interval = window.setInterval(function(o, $) {
 
