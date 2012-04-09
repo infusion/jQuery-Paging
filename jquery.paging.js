@@ -217,11 +217,14 @@
 						$["ajax"]({
 							"url": o.opts["refresh"]["url"],
 							"success": function(data) {
-
-								try {
-									var tmp = $["parseJSON"](data);
-								} catch (o) {
-									return;
+								if (typeof(data) == "object") {
+									var tmp = data;
+								} else {
+									try {
+										var tmp = $["parseJSON"](data);
+									} catch (o) {
+										return;
+									}
 								}
 								o.opts["onRefresh"](tmp);
 							}
