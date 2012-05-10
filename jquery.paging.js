@@ -446,34 +446,37 @@
 
                     buffer_append(opts, data, node.ftype);
                 }
+                
+                if (self.length) {
 
-                self["html"](buffer);
-                $("a", self).click(function(ev) {
-                    ev["preventDefault"]();
+                    self["html"](buffer);
+                    $("a", self).click(function(ev) {
+                        ev["preventDefault"]();
 
-                    var obj = ev["target"];
+                        var obj = ev["target"];
 
-                    do {
+                        do {
 
-                        if ('a' === obj["nodeName"].toLowerCase()) {
-                            break;
+                            if ('a' === obj["nodeName"].toLowerCase()) {
+                                break;
+                            }
+
+                        } while ((obj = obj["parentNode"]));
+
+                        Paging["setPage"]($.data(obj, "page"));
+
+                        if (Paging.locate) {
+                            window.location = obj["href"];
                         }
+                    });
 
-                    } while ((obj = obj["parentNode"]));
-
-                    Paging["setPage"]($.data(obj, "page"));
-
-                    if (Paging.locate) {
-                        window.location = obj["href"];
-                    }
-                });
-
-                this.locate = opts["onSelect"].call({
-                    "number"	: number,
-                    "lapping"	: lapping,
-                    "pages"		: pages,
-                    "slice"		: data["slice"]
-                }, page);
+                    this.locate = opts["onSelect"].call({
+                        "number"	: number,
+                        "lapping"	: lapping,
+                        "pages"		: pages,
+                        "slice"		: data["slice"]
+                    }, page);
+                }
                 return this;
             }
         };
