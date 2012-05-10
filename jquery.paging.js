@@ -203,6 +203,10 @@
                     }
                 }, opts || {});
 
+                this.opts["lapping"]*= 1;
+                this.opts["perpage"]*= 1;
+                this.opts["page"]   *= 1;
+
                 // If the number of elements per page is less then 1, set it to default
                 if (this.opts["perpage"] < 1) {
                     this.opts["perpage"] = 10;
