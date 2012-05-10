@@ -1,5 +1,5 @@
 /**
- * @license jQuery paging plugin v1.0.1 09/04/2011
+ * @license jQuery paging plugin v1.1.0 09/04/2011
  * http://www.xarg.org/2011/09/jquery-pagination-revised/
  *
  * Copyright (c) 2011, Robert Eisele (robert@xarg.org)
@@ -384,7 +384,7 @@
                                 data["value"]      = rStart;
                                 data["pos"]	       = 1 + format.blockwide - rStop + rStart;
 
-                                data["active"]     = rStart <= pages || number < 0;    // true if infinity series and rStart <= pages
+                                data["active"]     = rStart <= pages || number < 0;     // true if infinity series and rStart <= pages
                                 data["first"]      = 1 === rStart;                      // check if it is the first page
                                 data["last"]       = rStart == pages && 0 < number;     // false if infinity series or rStart != pages
 
@@ -393,42 +393,39 @@
                             continue;
 
                         case "left":
-                            data["value"]      = /* void */
-                            data["pos"]	       = node.pos;
+                            data["value"]      = node.pos;
                             data["active"]     = node.pos < rStart; // Don't take group-visibility into account!
                             break;
 
                         case "right":
                             data["value"]      = pages - format.rights + node.pos;
-                            data["pos"]        = node.pos;
                             data["active"]     = rStop <= data["value"]; // Don't take group-visibility into account!
                             break;
 
                         case "first":
                             data["value"]      = 1;
-                            data["pos"]        = node.pos;
-                            data["active"]     = tmp && format.current < page; // Show only if the first page can not be accessed via the block
+                            data["active"]     = tmp && 1 < page;
                             break;
-
-                        case "last":
-                            data["value"]      = pages;
-                            data["pos"]        = node.pos;
-                            data["active"]     = tmp && format.blockwide < format.current + pages - page; // Show only if the first page can not be accessed via the block
-                            break;
-
+                            
                         case "prev":
                             data["value"]      = Math.max(1, page - 1);
-                            data["pos"]        = node.pos;
                             data["active"]     = tmp && 1 < page;
                             break;
 
-                        case "next":
-                            data["pos"]        = node.pos;
-
+                        case "last":
                             if ((data["active"]	   = (number < 0))) {
                                 data["value"]      = 1 + page;
                             } else {
-                                data["value"]      = Math.min(1 + page, pages)
+                                data["value"]      = pages;
+                                data["active"]     = tmp && page < pages;
+                            }
+                            break;
+                            
+                        case "next":
+                            if ((data["active"]	   = (number < 0))) {
+                                data["value"]      = 1 + page;
+                            } else {
+                                data["value"]      = Math.min(1 + page, pages);
                                 data["active"]     = tmp && page < pages;
                             }
                             break;
@@ -441,7 +438,8 @@
                             continue;
                     }
 
-                    data["last"] = /* void */
+                    data["pos"]   = node.pos;
+                    data["last"]  = /* void */
                     data["first"] = undefined;
 
                     buffer_append(opts, data, node.ftype);
