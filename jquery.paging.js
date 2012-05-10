@@ -216,25 +216,25 @@
 
                 if (this.opts["refresh"]["url"]) {
 
-                    this.interval = window.setInterval(function(o, $) {
+                    this.interval = window.setInterval(function(o) {
 
                         $["ajax"]({
                             "url": o.opts["refresh"]["url"],
                             "success": function(data) {
-                                if (typeof(data) == "object") {
-                                    var tmp = data;
-                                } else {
+                                
+                                if (typeof(data) === "string") {
+
                                     try {
-                                        var tmp = $["parseJSON"](data);
+                                        data = $["parseJSON"](data);
                                     } catch (o) {
                                         return;
                                     }
                                 }
-                                o.opts["onRefresh"](tmp);
+                                o.opts["onRefresh"](data);
                             }
                         });
 
-                    }, 1000 * this.opts["refresh"]["interval"], this, $);
+                    }, 1000 * this.opts["refresh"]["interval"], this);
                 }
 
                 this.format = parseFormat(this.opts["format"]);
