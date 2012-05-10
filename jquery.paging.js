@@ -203,9 +203,9 @@
                     }
                 }, opts || {});
 
-                this.opts["lapping"]*= 1;
-                this.opts["perpage"]*= 1;
-                this.opts["page"]   *= 1;
+                this.opts["lapping"]|= 0;
+                this.opts["perpage"]|= 0;
+                this.opts["page"]   |= 0;
 
                 // If the number of elements per page is less then 1, set it to default
                 if (this.opts["perpage"] < 1) {
@@ -447,11 +447,10 @@
                 
                 if (self.length) {
 
-                    self["html"](buffer);
-                    $("a", self).click(function(ev) {
+                    $("a", self["html"](buffer)).click(function(ev) {
                         ev["preventDefault"]();
 
-                        var obj = ev["target"];
+                        var obj = this;
 
                         do {
 
@@ -461,7 +460,7 @@
 
                         } while ((obj = obj["parentNode"]));
 
-                        Paging["setPage"]($.data(obj, "page"));
+                        Paging["setPage"]($(obj).data("page"));
 
                         if (Paging.locate) {
                             window.location = obj["href"];
