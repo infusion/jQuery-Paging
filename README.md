@@ -16,10 +16,32 @@ In order to use the Paging plugin, you're done by defining the following simple 
 	        perpage: 10, // show 10 elements per page
 	        lapping: 0, // don't overlap pages for the moment
 	        page: 1, // start at page, can also be "null" or negative
-	        onSelect: onSelectCB, // callback is called when user selects a page
-	        onFormat: onFormatCB // callback is called once for every "format" element
+            onSelect: function (page) {
+                // add code which gets executed when user selects a page
+            },
+            onFormat: function (type) {
+                switch (type) {
+                case 'block': // n and c
+                   return '<a href="#">' + this.value + '</a>';
+                case 'next': // >
+                   return '<a href="#">&gt;</a>';
+                case 'prev': // <
+                   return '<a href="#">&lt;</a>';
+                case 'first': // [
+                   return '<a href="#">first</a>';
+                case 'last': // ]
+                   return '<a href="#">last</a>';
+                }
+            }
 		}
 	});
+
+The strength of the library is that every parameter you would need is pre calculated and accessable via the "this"-object inside the callbacks.
+
+
+Build
+=====
+The library is aggressively size optimized and works best with Closure-Compiler Advanced mode.
 
 
 Examples and documentation
