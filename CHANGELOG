@@ -1,0 +1,13 @@
+jQuery Paging Changelog
+
+1.1.0
+ * onSelect shouldn't be called when $().length == 0
+ * setOptions({perpage: <string>}) should work as well
+ * li/options should work as well -> Collect as string, not as DOM element
+ * Simplified active state of last/first (Show only if the first page can not be accessed via the block) buttons
+
+1.0.1
+ * Fixed clicks on nested images in navigation
+
+1.0.0
+ * First stable release
