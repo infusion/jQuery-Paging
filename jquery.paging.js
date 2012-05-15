@@ -41,7 +41,7 @@
 
                     while ((tok = pattern["exec"](format))) {
 
-                        tok = ("" + tok);
+                        tok = String(tok);
 
                         if (undefined === known[tok]) {
 
