@@ -66,8 +66,8 @@
 
                                 res.fstack[res.fstack.length] = ({
                                     ftype: "block",	// type
-                                    group: 0,		// group
-                                    pos: 0			// pos
+                                    fgroup: 0,		// group
+                                    fpos: 0		// pos
                                 });
                                 num = 0;
                             }
@@ -76,8 +76,8 @@
 
                             res.fstack[res.fstack.length] = ({
                                 ftype: known[tok], // type
-                                group: group,      // group
-                                pos: undefined === count[tok] ? count[tok] = 1 : ++count[tok] // pos
+                                fgroup: group,      // group
+                                fpos: undefined === count[tok] ? count[tok] = 1 : ++count[tok] // pos
                             });
 
                             if ("q" === tok)
@@ -324,10 +324,10 @@
                     switch (node.ftype) {
 
                         case "left":
-                            tmp = (node.pos < rStart);
+                            tmp = (node.fpos < rStart);
                             break;
                         case "right":
-                            tmp = (rStop <= pages - format.rights + node.pos);
+                            tmp = (rStop <= pages - format.rights + node.fpos);
                             break;
 
                         case "first":
@@ -344,7 +344,7 @@
                             tmp = (page < pages);
                             break;
                     }
-                    groups|= tmp << node.group; // group visible?
+                    groups|= tmp << node.fgroup; // group visible?
                 }
 
                 data = {
@@ -375,7 +375,7 @@
 
                     node = format.fstack[i];
 
-                    tmp = (groups >> node.group & 1);
+                    tmp = (groups >> node.fgroup & 1);
 
                     switch (node.ftype) {
                         case "block":
@@ -393,12 +393,12 @@
                             continue;
 
                         case "left":
-                            data["value"]      = node.pos;
-                            data["active"]     = node.pos < rStart; // Don't take group-visibility into account!
+                            data["value"]      = node.fpos;
+                            data["active"]     = node.fpos < rStart; // Don't take group-visibility into account!
                             break;
 
                         case "right":
-                            data["value"]      = pages - format.rights + node.pos;
+                            data["value"]      = pages - format.rights + node.fpos;
                             data["active"]     = rStop <= data["value"]; // Don't take group-visibility into account!
                             break;
 
@@ -432,13 +432,13 @@
 
                         case "leap":
                         case "fill":
-                            data["pos"]        = node.pos;
+                            data["pos"]        = node.fpos;
                             data["active"]     = tmp; // tmp is true by default and changes only for group behaviour
                             buffer_append(opts, data, node.ftype);
                             continue;
                     }
 
-                    data["pos"]   = node.pos;
+                    data["pos"]   = node.fpos;
                     data["last"]  = /* void */
                     data["first"] = undefined;
 
