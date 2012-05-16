@@ -366,7 +366,7 @@
                     type = String(opts["onFormat"].call(data, type));
                     
                     if (data["value"])
-                        buffer+= type.replace("<a ", '<a data-page="' + data["value"] + '" ');
+                        buffer+= type.replace("<a", '<a data-page="' + data["value"] + '"');
                     else
                         buffer+= type
                 }
