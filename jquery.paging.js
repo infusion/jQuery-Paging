@@ -91,14 +91,16 @@
 
                 this.opts = $.extend(this.opts || {
                     "lapping"		: 0,	// number of elements overlap
-                    "perpage"		: 10,	// number of elements per page
-                    "page"			: 1,	// current page
+                    "perpage"           : 10,	// number of elements per page
+                    "page"              : 1,	// current page
                     "refresh"		: {
                         "interval": 10,
                         "url": null
                     },	// refresh callback information
 
                     "format"		: "",	// visual format string
+
+                    "onLock"            : null, // empty callback. set it if you want to lock the entire pagination
 
                     "onFormat"		: function (type) {	// callback for every format element
 
@@ -259,6 +261,12 @@
                 }
 
                 this.opts["page"] = (page|= 0);
+
+		if (null !== this.opts["onLock"]) {
+                    this.opts["onLock"].call(null, page);
+		    return this;
+		}
+
                 var number = this.number;
                 var opts = this.opts;
 
