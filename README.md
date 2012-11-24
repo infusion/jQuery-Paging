@@ -62,6 +62,7 @@ function onSelectCB(page) {
 
 Slice Select Callback
 ======================
+```javascript
 function onSelectCB(page) {
 
 	var data = this.slice;
@@ -71,6 +72,7 @@ function onSelectCB(page) {
 	
 	prev = data;
 }
+```
 
 Using cookies
 =============
