@@ -13,7 +13,7 @@ In order to use the Paging plugin, you're done by defining the following simple 
 
 ```javascript
 $(".pagination").paging(1337, { // make 1337 elements navigatable
-	format: '[< ncnnn! >]', // define how the navigation should look like
+	format: '[< ncnnn! >]', // define how the navigation should look like and in which order onFormat() get's called
 	perpage: 10, // show 10 elements per page
 	lapping: 0, // don't overlap pages for the moment
 	page: 1, // start at page, can also be "null" or negative
@@ -40,13 +40,55 @@ $(".pagination").paging(1337, { // make 1337 elements navigatable
 
 The strength of the library is that every parameter you would need is pre calculated and accessable via the "this"-object inside the callbacks.
 
-
 Build
 =====
 The library is aggressively size optimized and works best with Closure-Compiler Advanced mode.
 
 
-Examples and documentation
+
+Ajax Select Callback
+====================
+```javascript
+function onSelectCB(page) {
+
+	$.ajax({
+		"url": '/data.php?start=' + this.slice[0] + '&end=' + this.slice[1] + '&page=' + page,
+		"success": function(data) {
+			// content replace
+		}
+	});
+}
+```
+
+Slice Select Callback
+======================
+function onSelectCB(page) {
+
+	var data = this.slice;
+	
+	content.slice(prev[0], prev[1]).css('display', 'none');
+	content.slice(data[0], data[1]).css('display', 'block');
+	
+	prev = data;
+}
+
+Using cookies
+=============
+```javascript
+$(".pagination").paging(1337, {
+	format: '[< ncnnn! >]',
+	perpage: 10,
+	page: getCookie("current") || 1,
+	onSelect: function (page) {
+		setCookie("current", page)
+		console.log(this);
+	},
+	onFormat: onFormatCB
+});
+```
+
+
+Further examples and documentation
 ==========================
 For further details and code examples take a look at the demonstration and documentation page on:
 
