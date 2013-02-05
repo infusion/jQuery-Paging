@@ -38,7 +38,20 @@ $(".pagination").paging(1337, { // make 1337 elements navigatable
 });
 ```
 
-The strength of the library is that every parameter you would need is pre calculated and accessable via the "this"-object inside the callbacks.
+The strength of the library is that every parameter you would need is pre calculated and accessable via the "this"-object inside the callbacks. The most important part is the nncnn-block.
+
+
+Format
+======
+The "format"-parameter defines how the layout should look like. The string is processed character by character from left to right. For each character, the onFormat-callback is called and a final output string is generated and applied to the selected container.
+
+n = number
+c = current
+
+A string "nncnn!" handles several definitions at once: How many digits to show? 5 by the length of the block. Where to show the currrent page in the set? Always at the beginning? "cnnnn". Always at the end? "nnc". Always in the middle? "nncnn". The exclamation mark in the initial example means that always 5 digits will be printed. All inactive elements have a "this.active" set to false.
+
+Additionally, there are other format-tokens like "<" and ">" for prev and next, "[" and "]" for first and last, "." and "-" for simple text replacements and "q" and "p" in order to build previous and next-blocks. A more of examples can be found on my blog (link below).
+
 
 Build
 =====
