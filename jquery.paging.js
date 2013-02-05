@@ -207,7 +207,7 @@
 
                 this.opts["lapping"]|= 0;
                 this.opts["perpage"]|= 0;
-                this.opts["page"]   |= 0;
+                if (this.opts["page"] !== null) this.opts["page"]   |= 0;
 
                 // If the number of elements per page is less then 1, set it to default
                 if (this.opts["perpage"] < 1) {
