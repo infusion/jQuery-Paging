@@ -1,0 +1,28 @@
+{
+    "name": "paging",
+    "title": "jQuery Pagination Plugin",
+    "description": "Probably the most advanced jQuery pagination plugin.",
+    "version": "1.1.0",
+    "keywords": [
+        "paging",
+        "pagination",
+        "pager",
+        "navigation"
+    ],
+    "author": {
+        "name": "Robert Eisele",
+        "url": "http://www.xarg.org/"
+    },
+    "licenses": [{
+            "type": "MIT",
+            "url": "http://www.opensource.org/licenses/MIT"
+        }, {
+            "type": "GPLv2",
+            "url": "http://www.opensource.org/licenses/GPL-2.0"
+        }],
+    "dependencies": {
+        "jquery": ">=1.5"
+    },
+    "homepage": "https://github.com/infusion/jQuery-Paging",
+    "demo": "http://www.xarg.org/2011/09/jquery-pagination-revised/"
+}
