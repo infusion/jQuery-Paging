@@ -263,7 +263,7 @@
                 this.opts["page"] = (page|= 0);
 
 		if (null !== this.opts["onLock"]) {
-                    this.opts["onLock"].call(null, page);
+                    this.opts["onLock"](page);
 		    return this;
 		}
 
