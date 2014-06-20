@@ -41,7 +41,7 @@
 
                     while ((tok = pattern["exec"](format))) {
 
-                        tok = String(tok);
+                        tok = "" + (tok);
 
                         if (undefined === known[tok]) {
 
@@ -302,7 +302,37 @@
 
                 } else {
 
-                    // Calculate the number of pages
+                    /* Calculate the number of pages
+                     *
+                     * Variables:
+                     * - n: Number of elements
+                     * - p: Elements per page
+                     * - o: Offset (lapping)
+                     * - x: Position of last n (aka virtual number of elements)
+                     * - m: Height aka number of pages
+                     *
+                     * Condition: o < p
+                     *
+                     * Page             Last element of page
+                     * =====================================
+                     * 1                p
+                     * 2                2p - o
+                     * 3                3p - 2o
+                     * ...
+                     * k                kp - (k - 1)o
+                     * k + 1            (k + 1)p - ko
+                     *
+                     *  => kp - (k - 1)o < n <= (k + 1)p - ko       (n is on page k+1)
+                     * <=> k(p - o) + o < n <= k(p - o) + p
+                     * <=> (n - p) / (p - o) <= k < (n - o) / (p - o)
+                     *  => k = ceil((n - p) / (p - o))
+                     *
+                     * We know that kp - ko + i = n
+                     *  => i = n - k(p - o)
+                     *
+                     *  => m = k + 1
+                     *     x = kp + i
+                     */
                     pages = 1 + Math.ceil((number - opts["perpage"]) / (opts["perpage"] - lapping));
 
                     // If current page is negative, start at the end and
@@ -373,7 +403,7 @@
                 
                 function buffer_append(opts, data, type) {
                     
-                    type = String(opts["onFormat"].call(data, type));
+                    type = "" + (opts["onFormat"].call(data, type));
                     
                     if (data["value"])
                         buffer+= type.replace(/<a/i, '<a data-page="' + data["value"] + '"');
