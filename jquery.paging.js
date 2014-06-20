@@ -252,11 +252,13 @@
 
                 if (undefined === page) {
 
-                    if (page = this.opts["page"], null === page) {
+                    page = this.opts["page"];
+
+                    if (null === page) {
                         return this;
                     }
 
-                } else if (this.opts["page"] == page) {
+                } else if (this.opts["page"] == page) { // Necessary to be ==, not ===
                     return this;
                 }
 
@@ -376,7 +378,7 @@
                     if (data["value"])
                         buffer+= type.replace(/<a/i, '<a data-page="' + data["value"] + '"');
                     else
-                        buffer+= type
+                        buffer+= type;
                 }
 
                 while (++i < count) {
@@ -394,7 +396,7 @@
 
                                 data["active"]     = rStart <= pages || number < 0;     // true if infinity series and rStart <= pages
                                 data["first"]      = 1 === rStart;                      // check if it is the first page
-                                data["last"]       = rStart == pages && 0 < number;     // false if infinity series or rStart != pages
+                                data["last"]       = rStart === pages && 0 < number;    // false if infinity series or rStart != pages
 
                                 buffer_append(opts, data, node.ftype);
                             }
@@ -490,6 +492,6 @@
         ["setNumber"](number)
         ["setOptions"](opts)
         ["setPage"]();
-    }
+    };
 
 }(jQuery, this));
