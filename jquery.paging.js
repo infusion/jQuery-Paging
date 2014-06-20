@@ -1,5 +1,5 @@
 /**
- * @license jQuery paging plugin v1.1.0 09/04/2011
+ * @license jQuery paging plugin v1.1.1 21/04/2014
  * http://www.xarg.org/2011/09/jquery-pagination-revised/
  *
  * Copyright (c) 2011, Robert Eisele (robert@xarg.org)
@@ -16,7 +16,7 @@
 
             "setOptions": function(opts) {
 
-                function parseFormat(format) {
+                var parseFormat = function(format) {
 
                     var gndx = 0, group = 0, num = 1, res = {
                         fstack:         [], // format stack
@@ -87,9 +87,9 @@
                         }
                     }
                     return res;
-                }
+                };
 
-                this.opts = $.extend(this.opts || {
+                Paging.opts = $.extend(Paging.opts || {
                     "lapping"		: 0,	// number of elements overlap
                     "perpage"           : 10,	// number of elements per page
                     "page"              : 1,	// current page
@@ -205,23 +205,24 @@
                     }
                 }, opts || {});
 
-                this.opts["lapping"]|= 0;
-                this.opts["perpage"]|= 0;
-                if (this.opts["page"] !== null) this.opts["page"]   |= 0;
+                Paging.opts["lapping"]|= 0;
+                Paging.opts["perpage"]|= 0;
+                if (Paging.opts["page"] !== null)
+                Paging.opts["page"]   |= 0;
 
                 // If the number of elements per page is less then 1, set it to default
-                if (this.opts["perpage"] < 1) {
-                    this.opts["perpage"] = 10;
+                if (Paging.opts["perpage"] < 1) {
+                    Paging.opts["perpage"] = 10;
                 }
 
-                if (this.interval) window.clearInterval(this.interval);
+                if (Paging.interval) window.clearInterval(Paging.interval);
 
-                if (this.opts["refresh"]["url"]) {
+                if (Paging.opts["refresh"]["url"]) {
 
-                    this.interval = window.setInterval(function(o) {
+                    Paging.interval = window.setInterval(function() {
 
                         $["ajax"]({
-                            "url": o.opts["refresh"]["url"],
+                            "url": Paging.opts["refresh"]["url"],
                             "success": function(data) {
                                 
                                 if (typeof(data) === "string") {
@@ -232,51 +233,51 @@
                                         return;
                                     }
                                 }
-                                o.opts["onRefresh"](data);
+                                Paging.opts["onRefresh"](data);
                             }
                         });
 
-                    }, 1000 * this.opts["refresh"]["interval"], this);
+                    }, 1000 * Paging.opts["refresh"]["interval"]);
                 }
 
-                this.format = parseFormat(this.opts["format"]);
-                return this;
+                Paging.format = parseFormat(Paging.opts["format"]);
+                return Paging;
             },
 
             "setNumber": function(number) {
-                this.number = (undefined === number || number < 0) ? -1 : number;
-                return this;
+                Paging.number = (undefined === number || number < 0) ? -1 : number;
+                return Paging;
             },
 
             "setPage": function(page) {
 
                 if (undefined === page) {
 
-                    page = this.opts["page"];
+                    page = Paging.opts["page"];
 
                     if (null === page) {
-                        return this;
+                        return Paging;
                     }
 
-                } else if (this.opts["page"] == page) { // Necessary to be ==, not ===
-                    return this;
+                } else if (Paging.opts["page"] == page) { // Necessary to be ==, not ===
+                    return Paging;
                 }
 
-                this.opts["page"] = (page|= 0);
+                Paging.opts["page"] = (page|= 0);
 
-		if (null !== this.opts["onLock"]) {
-                    this.opts["onLock"](page);
-		    return this;
+		if (null !== Paging.opts["onLock"]) {
+                    Paging.opts["onLock"](page);
+		    return Paging;
 		}
 
-                var number = this.number;
-                var opts = this.opts;
+                var number = Paging.number;
+                var opts = Paging.opts;
 
                 var rStart, rStop;
 
                 var pages, buffer;
 
-                var groups = 1, format = this.format;
+                var groups = 1, format = Paging.format;
 
                 var data, tmp, node, lapping;
 
@@ -507,14 +508,14 @@
                         }
                     });
 
-                    this.locate = opts["onSelect"].call({
+                    Paging.locate = opts["onSelect"].call({
                         "number"	: number,
                         "lapping"	: lapping,
                         "pages"		: pages,
                         "slice"		: data["slice"]
                     }, page);
                 }
-                return this;
+                return Paging;
             }
         };
 
