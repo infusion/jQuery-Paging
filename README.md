@@ -61,7 +61,7 @@ jQuery paging is just a small framework. You can use it as the calculation base 
 	<li>Prev</li>
 	<li>Page #n</li>
 	<li>Page #n</li>
-	<li>Page #c</li>
+	<li>Page #c</li> <!-- current element will be here -->
 	<li>Page #n</li>
 	<li>Page #n</li>
 	<li>Page #n</li>
