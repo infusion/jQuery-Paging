@@ -1,5 +1,11 @@
 jQuery Paging Changelog
 
+
+1.1.1
+ * Added equation derivation
+ * Simplified code
+ * Added easyPaging example plugin
+
 1.1.0
  * onSelect shouldn't be called when $().length == 0
  * setOptions({perpage: <string>}) should work as well

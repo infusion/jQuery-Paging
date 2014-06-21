@@ -53,10 +53,30 @@ A string "nncnn!" handles several definitions at once: How many digits to show? 
 Additionally, there are other format-tokens like "<" and ">" for prev and next, "[" and "]" for first and last, "." and "-" for simple text replacements and "q" and "p" in order to build previous and next-blocks. A more of examples can be found on my blog (link below).
 
 
-Build
-=====
-The library is aggressively size optimized and works best with Closure-Compiler Advanced mode.
+Build your own paginator!
+=================
+jQuery paging is just a small framework. You can use it as the calculation base of your own paginator. In the file *easy-paging.html* you'll find a small example plugin, which uses jQuery Paging to make a typical HTML based paginator work:
+```
+<ol id="paging">
+	<li>Prev</li>
+	<li>Page #n</li>
+	<li>Page #n</li>
+	<li>Page #c</li>
+	<li>Page #n</li>
+	<li>Page #n</li>
+	<li>Page #n</li>
+	<li>Page #n</li>
+	<li>Next</li>
+</ol>
+```
 
+```javascript
+$("#paging").easyPaging(1000, {
+    onSelect: function(page) {
+        console.log("You are on page " + page + " and you will select elements "+(this.slice[0]+1) + "-" + this.slice[1]+"!!!");
+    }
+});
+```
 
 
 Ajax Select Callback
@@ -108,6 +128,11 @@ Further examples and documentation
 For further details and code examples take a look at the demonstration and documentation page on:
 
 http://www.xarg.org/2011/09/jquery-pagination-revised/
+
+Build
+=====
+The library is aggressively size optimized and works best with Closure-Compiler Advanced mode.
+
 
 License
 ======

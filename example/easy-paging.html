@@ -1,0 +1,38 @@
+<html>
+
+    <head>
+        <title>jQuery Easy-Paging Test</title>
+    </head>
+
+    <body>
+
+        <ol id="paging">
+            <li>Prev</li>
+            <li>Page #n</li>
+            <li>Page #n</li>
+            <li>Page #c</li>
+            <li>Page #n</li>
+            <li>Page #n</li>
+            <li>Page #n</li>
+            <li>Page #n</li>
+            <li>Next</li>
+        </ol>
+        
+        <div id="output"></div>
+
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="../jquery.paging.min.js"></script>
+        <script src="jquery.easy-paging.js"></script>
+        <script>
+
+
+            $("#paging").easyPaging(1000, {
+                onSelect: function(page) {
+                    $("#output").html("You are on page " + page + " and you will select elements "+(this.slice[0]+1) + "-" + this.slice[1]+"!!!");
+                }
+            });
+
+        </script>
+
+    </body>
+</html>
