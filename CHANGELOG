@@ -1,6 +1,9 @@
 jQuery Paging Changelog
 
 
+1.2.0
+ * Improved locking mechanism (dropped onLock callback and added "lock" option)
+
 1.1.1
  * Added equation derivation
  * Simplified code

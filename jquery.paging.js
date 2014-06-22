@@ -1,5 +1,5 @@
 /**
- * @license jQuery paging plugin v1.1.1 21/06/2014
+ * @license jQuery paging plugin v1.2.0 23/06/2014
  * http://www.xarg.org/2011/09/jquery-pagination-revised/
  *
  * Copyright (c) 2011, Robert Eisele (robert@xarg.org)
@@ -100,7 +100,7 @@
 
                     "format"		: "",	// visual format string
 
-                    "onLock"            : null, // empty callback. set it if you want to lock the entire pagination
+                    "lock"              : false, // set to true, if you want to disable the pagination for a while. 
 
                     "onFormat"		: function (type) {	// callback for every format element
 
@@ -251,6 +251,11 @@
 
             "setPage": function(page) {
 
+		if (Paging.opts["lock"]) {
+                    Paging.opts["onSelect"](0);
+		    return Paging;
+		}
+
                 if (undefined === page) {
 
                     page = Paging.opts["page"];
@@ -264,11 +269,6 @@
                 }
 
                 Paging.opts["page"] = (page|= 0);
-
-		if (null !== Paging.opts["onLock"]) {
-                    Paging.opts["onLock"](page);
-		    return Paging;
-		}
 
                 var number = Paging.number;
                 var opts = Paging.opts;

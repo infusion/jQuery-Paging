@@ -122,6 +122,32 @@ $(".pagination").paging(1337, {
 });
 ```
 
+Lock the pager
+============
+It's sometimes necessary to lock the pagination, because you want to disable the navigation. You can use setOptions to disable the navigation like this:
+```javascript
+var paging = $(".pagination").paging(1337, {
+	format: '[< ncnnn! >]',
+	onSelect: function (page) {
+
+                // onSelect is called for locked pagers as well, but nothing happens, except this:
+                if (page === 0) {
+                    console.log("Pager was clicked, while it is disabled!");
+                    return;
+                }
+                // ... rest
+	},
+	onFormat: onFormatCB
+});
+
+// Lock the pager
+paging.setOptions({lock: true});
+
+// Unlock the pager
+paging.setOptions({lock: false});
+
+```
+
 
 Further examples and documentation
 ==========================
