@@ -252,7 +252,7 @@
             "setPage": function(page) {
 
 		if (Paging.opts["lock"]) {
-                    Paging.opts["onSelect"](0);
+                    Paging.opts["onSelect"](0, self);
 		    return Paging;
 		}
 
@@ -513,7 +513,7 @@
                         "lapping"	: lapping,
                         "pages"		: pages,
                         "slice"		: data["slice"]
-                    }, page);
+                    }, page, self);
                 }
                 return Paging;
             }
