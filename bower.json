@@ -11,7 +11,7 @@
         "navigation"
     ],
     "authors": [
-        "Robert Eisele <robert@xarg.org>"
+        "Robert Eisele <robert@xarg.org> (http://www.xarg.org/)"
     ],
     "dependencies": {
         "jquery": ">=1.5"
