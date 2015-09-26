@@ -101,90 +101,92 @@
                     "format"		: "",	// visual format string
 
                     "lock"              : false, // set to true, if you want to disable the pagination for a while. 
+                    
+                    "onClick"           : null, // Alternative click handler to bypass onSelect mechanism
 
                     "onFormat"		: function (type) {	// callback for every format element
 
                     /** EXAMPLE **
 
-						switch (type) {
+                    switch (type) {
 
-							case 'block':
+                            case 'block':
 
-								if (!this.active)
-									return '<span class="disabled">' + this.value + '</span>';
-								else if (this.value != this.page)
-									return '<em><a href="#' + this.value + '">' + this.value + '</a></em>';
-								return '<span class="current">' + this.value + '</span>';
+                                    if (!this.active)
+                                            return '<span class="disabled">' + this.value + '</span>';
+                                    else if (this.value != this.page)
+                                            return '<em><a href="#' + this.value + '">' + this.value + '</a></em>';
+                                    return '<span class="current">' + this.value + '</span>';
 
-							case 'right':
-							case 'left':
+                            case 'right':
+                            case 'left':
 
-								if (!this.active) {
-									return "";
-								}
-								return '<a href="#' + this.value + '">' + this.value + '</a>';
+                                    if (!this.active) {
+                                            return "";
+                                    }
+                                    return '<a href="#' + this.value + '">' + this.value + '</a>';
 
-							case 'next':
+                            case 'next':
 
-								if (this.active) {
-									return '<a href="#' + this.value + '" class="next">Next &raquo;</a>';
-								}
-								return '<span class="disabled">Next &raquo;</span>';
+                                    if (this.active) {
+                                            return '<a href="#' + this.value + '" class="next">Next &raquo;</a>';
+                                    }
+                                    return '<span class="disabled">Next &raquo;</span>';
 
-							case 'prev':
+                            case 'prev':
 
-								if (this.active) {
-									return '<a href="#' + this.value + '" class="prev">&laquo; Previous</a>';
-								}
-								return '<span class="disabled">&laquo; Previous</span>';
+                                    if (this.active) {
+                                            return '<a href="#' + this.value + '" class="prev">&laquo; Previous</a>';
+                                    }
+                                    return '<span class="disabled">&laquo; Previous</span>';
 
-							case 'first':
+                            case 'first':
 
-								if (this.active) {
-									return '<a href="#' + this.value + '" class="first">|&lt;</a>';
-								}
-								return '<span class="disabled">|&lt;</span>';
+                                    if (this.active) {
+                                            return '<a href="#' + this.value + '" class="first">|&lt;</a>';
+                                    }
+                                    return '<span class="disabled">|&lt;</span>';
 
-							case 'last':
+                            case 'last':
 
-								if (this.active) {
-									return '<a href="#' + this.value + '" class="prev">&gt;|</a>';
-								}
-								return '<span class="disabled">&gt;|</span>';
+                                    if (this.active) {
+                                            return '<a href="#' + this.value + '" class="prev">&gt;|</a>';
+                                    }
+                                    return '<span class="disabled">&gt;|</span>';
 
-							case 'fill':
-								if (this.active) {
-									return "...";
-								}
-						}
-						return ""; // return nothing for missing branches
+                            case 'fill':
+                                    if (this.active) {
+                                            return "...";
+                                    }
+                    }
+                    return ""; // return nothing for missing branches
 
-						**/
+                    **/
                     },
                     "onSelect"		: function (page){	// callback for page selection
 
                         /** EXAMPLE SLICE **
 
-						var data = this.slice;
+                        var data = this.slice;
 
-						content.slice(prev[0], prev[1]).css('display', 'none');
-						content.slice(data[0], data[1]).css('display', 'block');
+                        content.slice(prev[0], prev[1]).css('display', 'none');
+                        content.slice(data[0], data[1]).css('display', 'block');
 
-						prev = data;
+                        prev = data;
 
-						**/
+                        **/
 
 
                         /** EXAMPLE AJAX **
 
-						$.ajax({
-							"url": '/data.php?start=' + this.slice[0] + '&end=' + this.slice[1] + '&page=' + page,
-							"success": function(data) {
-								// content replace
-							}
-						});
+                            $.ajax({
+                                    "url": '/data.php?start=' + this.slice[0] + '&end=' + this.slice[1] + '&page=' + page,
+                                    "success": function(data) {
+                                            // content replace
+                                    }
+                            });
 
-					   **/
+                       **/
 
                         // Return code indicates if the link of the clicked format element should be followed (otherwise only the click-event is used)
                         return true;
@@ -192,16 +194,16 @@
                     "onRefresh"		: function (json) {// callback for new data of refresh api
 
                     /** EXAMPLE **
-						if (json.number) {
-							Paging.setNumber(json.number);
-						}
+                    if (json.number) {
+                            Paging.setNumber(json.number);
+                    }
 
-						if (json.options) {
-							Paging.setOptions(json.options);
-						}
+                    if (json.options) {
+                            Paging.setOptions(json.options);
+                    }
 
-						Paging.setPage(); // Call with empty params to reload the paginator
-						**/
+                    Paging.setPage(); // Call with empty params to reload the paginator
+                    **/
                     }
                 }, opts || {});
 
@@ -391,10 +393,10 @@
                 data = {
                     "number"	: number,	// number of elements
                     "lapping"	: lapping,	// overlapping
-                    "pages"		: pages,	// number of pages
+                    "pages"	: pages,	// number of pages
                     "perpage"	: opts["perpage"], // number of elements per page
-                    "page"		: page,		// current page
-                    "slice"		: [			// two element array with bounds of the current page selection
+                    "page"	: page,		// current page
+                    "slice"	: [		// two element array with bounds of the current page selection
                     (tmp = page * (opts["perpage"] - lapping) + lapping) - opts["perpage"], // Lower bound
                     Math.min(tmp, number) // Upper bound
                     ]
@@ -488,7 +490,7 @@
                 
                 if (self.length) {
 
-                    $("a", self["html"](buffer)).click(function(ev) {
+                    $("a", self["html"](buffer)).click(opts['onClick'] || function(ev) {
                         ev["preventDefault"]();
 
                         var obj = this;

@@ -1,0 +1,99 @@
+<html>
+
+    <head>
+        <title>jQuery Paging Test</title>
+    </head>
+
+    <body>
+
+        <div id="paging"></div>
+
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="../jquery.paging.js"></script>
+        <script>
+
+            /*
+             * Paging has a onClick handler to bypass the normal onClick handler.
+             * This allows more control on when the pager should be changed.
+             */
+            var pager = $("#paging").paging(1000, {
+                
+                // Set up onclick handler
+                onClick: function(ev) {
+
+                    ev.preventDefault();
+
+                    var page = $(this).data('page');
+
+                    // Call asynchronously, could be ajax, or whatever
+                    window.setTimeout(function() {
+                        pager.setPage(page);
+                    }, 1000);
+
+                },
+                
+                // Set up easy format
+                format: "<nncnn>",
+                
+                // Typical onFormat handler, copied from source file
+                onFormat: function(type) {
+
+                    switch (type) {
+
+                        case 'block':
+
+                            if (!this.active)
+                                return '<span class="disabled">' + this.value + '</span>';
+                            else if (this.value != this.page)
+                                return '<em><a href="#' + this.value + '">' + this.value + '</a></em>';
+                            return '<span class="current">' + this.value + '</span>';
+
+                        case 'right':
+                        case 'left':
+
+                            if (!this.active) {
+                                return "";
+                            }
+                            return '<a href="#' + this.value + '">' + this.value + '</a>';
+
+                        case 'next':
+
+                            if (this.active) {
+                                return '<a href="#' + this.value + '" class="next">Next &raquo;</a>';
+                            }
+                            return '<span class="disabled">Next &raquo;</span>';
+
+                        case 'prev':
+
+                            if (this.active) {
+                                return '<a href="#' + this.value + '" class="prev">&laquo; Previous</a>';
+                            }
+                            return '<span class="disabled">&laquo; Previous</span>';
+
+                        case 'first':
+
+                            if (this.active) {
+                                return '<a href="#' + this.value + '" class="first">|&lt;</a>';
+                            }
+                            return '<span class="disabled">|&lt;</span>';
+
+                        case 'last':
+
+                            if (this.active) {
+                                return '<a href="#' + this.value + '" class="prev">&gt;|</a>';
+                            }
+                            return '<span class="disabled">&gt;|</span>';
+
+                        case 'fill':
+                            if (this.active) {
+                                return "...";
+                            }
+                    }
+                    return ""; // return nothing for missing branches
+                }
+            });
+
+        </script>
+
+    </body>
+</html>
