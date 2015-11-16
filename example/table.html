@@ -1,0 +1,289 @@
+<html>
+
+    <head>
+        <title>jQuery Paging Test</title>
+
+        <style>
+            table {
+                width: 500px;
+            }
+            table td {
+                width: 20%;
+
+            }
+           td > span {
+                width: 70px;
+                display: block;
+                float:left;
+                text-align: right;
+            }
+            table th {
+                background: #333;
+                color:#fff;
+            }
+
+            #b1, #b2 {
+                width: auto;
+            }
+
+        </style>
+    </head>
+
+    <body>
+
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="../jquery.paging.min.js"></script>
+
+        <div style="text-align:right;width:500px">
+            <input id="b1" value="&lt;" type="button"> <span id="stat"></span><input id="b2" value="&gt;" type="button"> 
+            <select id="tabpage">
+                <option></option>
+            </select>
+        </div>
+        <table id="table">
+            <tr>
+                <th>#</th>
+                <th>a</th>
+                <th>b</th>
+                <th>c</th>
+                <th>d</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <p><em>P</em>: Prime number, <em>F</em>: Fibonacci number, <em>E</em>: Perfect number, <em>B</em>: Power of two, <em>T</em>: Power of ten</p>
+
+        <script>
+
+            (function() {
+
+
+                var CURTAB, STAT, numbers = [];
+
+
+                var
+                        TABLE = $('#table tr'),
+                        B1 = $('#b1'),
+                        B2 = $('#b2'),
+                        STAT = $('#stat');
+
+
+
+                B1.click(function() {
+                    TabPage.setPage(CURTAB - 1);
+                });
+
+                B2.click(function() {
+                    TabPage.setPage(CURTAB + 1);
+                });
+
+                var TabPage = $("#tabpage").change(function() {
+                    TabPage.setPage($(this).val());
+                }).paging(100, {
+                    onSelect: function(page) {
+
+                        var k = this.slice[0];
+                        var data = this;
+
+                        TABLE.each(function(i) {
+
+                            $(this).find("td").each(function(j) {
+
+                                if (j >= 1) {
+
+                                    if (k < data.number) {
+                                        var str = "";
+
+                                        if (0 === numbers[k]) {
+                                            // int
+                                            this.style.color = '#ccc'
+                                        } else {
+
+                                            this.style.color = '#000';
+
+                                            if (numbers[k] & 1) {
+                                                // prime
+                                                str += 'P';
+                                            }
+
+                                            if (numbers[k] & 2) {
+                                                // fibonacci
+                                                str += 'F';
+                                            }
+
+                                            if (numbers[k] & 4) {
+                                                // perfect
+                                                str += 'E';
+                                            }
+
+                                            if (numbers[k] & 8) {
+                                                // 2^
+                                                str += "B";
+                                            }
+
+                                            if (numbers[k] & 16) {
+                                                // 10^
+                                                str += "T";
+                                            }
+                                        }
+
+                                        this.innerHTML = "<span>" + k + "</span><sub> " + str + "</sub>";
+                                    } else {
+                                        this.style.color = '#000';
+                                        this.innerHTML = "<span>&nbsp;</span><sub></sub>";
+                                    }
+
+                                    ++k;
+                                } else
+                                    this.innerHTML = '<span>' + (i + (40 - data.lapping) * (page - 1) / 4) + '</span>';
+
+                            });
+
+                        });
+
+
+                        STAT.html('(' + this.slice[0] + ' - ' + (this.slice[1] - 1) + ')');
+
+                        return false; // don't locate!
+                    },
+                    onFormat: function(type) {
+
+                        switch (type) {
+
+                            case 'prev':
+                                CURTAB = this.page;
+                                B1.attr('disabled', !this.active);
+                                break;
+
+                            case 'next':
+                                CURTAB = this.page;
+                                B2.attr('disabled', !this.active);
+                                break;
+
+                            case 'fill':
+                                //STAT.html('(showing ' + (1 + this.start) + ' - ' + this.stop + ')');
+                                break;
+
+                            case 'block':
+
+                                if (!this.active)
+                                    return '<option class="disabled">' + this.value + '</option>';
+                                else if (this.value != this.page)
+                                    return '<option>' + this.value + '</option>';
+                                return '<option style="font-weight:bold;" selected="selected">' + this.value + '</option>';
+                        }
+                        return "";
+                    },
+                    format: '<.> *',
+                    perpage: 40,
+                    lapping: 0,
+                    page: 0
+                });
+
+
+
+
+                // Generate dummy data
+
+                var i, j;
+                for (i = 10000; i--; ) {
+                    numbers[i] = 1;
+                }
+
+                for (i = 2; i <= 100; ++i)
+                    if (numbers[i])
+                        for (j = i; j * i < 10000; ++j)
+                            numbers[i * j] = 0;
+
+                numbers[0] = numbers[1] = 2;
+                j = [2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765];
+
+                for (i = j.length; i--; numbers[j[i]] |= 2) {
+                }
+
+                numbers[6] |= 4;
+                numbers[28] |= 4;
+                numbers[496] |= 4;
+                numbers[8128] |= 4;
+
+                for (i = 1; i < 10000; i <<= 1) {
+                    numbers[i] |= 8;
+                }
+
+                for (i = 1; i < 10000; i *= 10) {
+                    numbers[i] |= 16;
+                }
+
+            })();
+
+        </script>
+    </body>
+</html>

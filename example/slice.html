@@ -1,0 +1,118 @@
+
+<html>
+
+    <head>
+        <title>jQuery Paging Test</title>
+    </head>
+
+    <body>
+
+        <div class="paging"></div>
+        <div class="element"><h5>Las Vegas</h5><p>37&deg;C / 98.6&deg;F</p></div><div class="element"><h5>Cairo</h5><p>35&deg;C / 95&deg;F</p></div><div class="element"><h5>Houston</h5><p>33&deg;C / 91.4&deg;F</p></div><div class="element"><h5>Madrid</h5><p>31&deg;C / 87.8&deg;F</p></div><div class="element"><h5>Athens</h5><p>30&deg;C / 86&deg;F</p></div><div class="element"><h5>Lisbon</h5><p>27&deg;C / 80.6&deg;F</p></div><div class="element"><h5>Rome</h5><p>27&deg;C / 80.6&deg;F</p></div><div class="element"><h5>Moscow</h5><p>23&deg;C / 73.4&deg;F</p></div><div class="element"><h5>Los Angeles</h5><p>22&deg;C / 71.6&deg;F</p></div><div class="element"><h5>San Francisco</h5><p>22&deg;C / 71.6&deg;F</p></div><div class="element"><h5>Lima</h5><p>19&deg;C / 66.2&deg;F</p></div><div class="element"><h5>Sydney</h5><p>18&deg;C / 64.4&deg;F</p></div><div class="element"><h5>Johannesburg</h5><p>17&deg;C / 62.6&deg;F</p></div><div class="element"><h5>Buenos Aires</h5><p>16&deg; / 60.8&deg;F</p></div>
+        <div class="paging"></div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script><!-- is needed for buggy hashchange-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-hashchange/v1.3/jquery.ba-hashchange.js"></script>
+        <script src="../jquery.paging.min.js"></script>
+        <script>
+
+            /*
+             * Slicing the content with two pagers and using the URL Hash event
+             */
+            (function() {
+
+                var prev = {
+                    start: 0,
+                    stop: 0
+                };
+
+
+                var content = $('.element');
+
+                var Paging = $(".paging").paging(content.length, {
+                    onSelect: function() {
+
+                        var data = this.slice;
+
+                        content.slice(prev[0], prev[1]).css('display', 'none');
+                        content.slice(data[0], data[1]).fadeIn("slow");
+
+                        prev = data;
+
+                        return true; // locate!
+                    },
+                    onFormat: function(type) {
+
+                        switch (type) {
+
+                            case 'block':
+
+                                if (!this.active)
+                                    return '<span class="disabled">' + this.value + '</span>';
+                                else if (this.value != this.page)
+                                    return '<em><a href="#' + this.value + '">' + this.value + '</a></em>';
+                                return '<span class="current">' + this.value + '</span>';
+
+                            case 'right':
+                            case 'left':
+
+                                if (!this.active) {
+                                    return '';
+                                }
+                                return '<a href="#' + this.value + '">' + this.value + '</a>';
+
+                            case 'next':
+
+                                if (this.active) {
+                                    return '<a href="#' + this.value + '" class="next">Next &raquo;</a>';
+                                }
+                                return '<span class="disabled">Next &raquo;</span>';
+
+                            case 'prev':
+
+                                if (this.active) {
+                                    return '<a href="#' + this.value + '" class="prev">&laquo; Previous</a>';
+                                }
+                                return '<span class="disabled">&laquo; Previous</span>';
+
+                            case 'first':
+
+                                if (this.active) {
+                                    return '<a href="#' + this.value + '" class="first">|&lt;</a>';
+                                }
+                                return '<span class="disabled">|&lt;</span>';
+
+                            case 'last':
+
+                                if (this.active) {
+                                    return '<a href="#' + this.value + '" class="prev">&gt;|</a>';
+                                }
+                                return '<span class="disabled">&gt;|</span>';
+
+                            case 'fill':
+                                if (this.active) {
+                                    return "...";
+                                }
+                        }
+                        return ""; // return nothing for missing branches
+                    },
+                    format: '[< ncnnn! >]',
+                    perpage: 3,
+                    lapping: 0,
+                    page: null // we await hashchange() event
+                });
+
+
+                $(window).hashchange(function() {
+
+                    if (window.location.hash)
+                        Paging.setPage(window.location.hash.substr(1));
+                    else
+                        Paging.setPage(1); // we dropped "page" support and need to run it by hand
+                });
+
+                $(window).hashchange();
+            })();
+        </script>
+    </body>
+</html>

@@ -13,8 +13,7 @@
         <script>
 
             /*
-             * Paging has a onClick handler to bypass the normal onClick handler.
-             * This allows more control on when the pager should be changed.
+             * Paging has a circular attribute, which allows the pager to click in circles with next/prev buttons
              */
             var pager = $("#paging").paging(40, {
 
@@ -23,7 +22,7 @@
                 
                 circular: true,
                 
-                // Typical onFormat handler, copied from source file
+                // Typical onFormat handler
                 onFormat: function(type) {
 
                     switch (type) {
