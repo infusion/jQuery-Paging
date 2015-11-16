@@ -1,0 +1,56 @@
+<html>
+
+    <head>
+        <title>jQuery Paging Test</title>
+    </head>
+
+    <body>
+
+        <div id="paging"></div>
+
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="../jquery.paging.js"></script>
+        <script>
+
+            /*
+             * Paging has a onClick handler to bypass the normal onClick handler.
+             * This allows more control on when the pager should be changed.
+             */
+            var pager = $("#paging").paging(40, {
+
+                // Set up easy format
+                format: "<->",
+                
+                circular: true,
+                
+                // Typical onFormat handler, copied from source file
+                onFormat: function(type) {
+
+                    switch (type) {
+
+                        case 'next':
+
+                            if (this.active) {
+                                return '<a href="#' + this.value + '" class="next">&raquo;</a>';
+                            }
+                            return '<span class="disabled">&raquo;</span>';
+
+                        case 'prev':
+
+                            if (this.active) {
+                                return '<a href="#' + this.value + '" class="prev">&laquo;</a>';
+                            }
+                            return '<span class="disabled">&laquo;</span>';
+
+                        case 'fill':
+                            return this.page + "/" + this.pages;
+
+                    }
+                    return ""; // return nothing for missing branches
+                }
+            });
+
+        </script>
+
+    </body>
+</html>
