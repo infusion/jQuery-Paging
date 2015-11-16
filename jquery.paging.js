@@ -1,5 +1,5 @@
 /**
- * @license jQuery paging plugin v1.2.0 23/06/2014
+ * @license jQuery paging plugin v1.3.0 23/06/2014
  * http://www.xarg.org/2011/09/jquery-pagination-revised/
  *
  * Copyright (c) 2011, Robert Eisele (robert@xarg.org)
@@ -19,13 +19,13 @@
                 var parseFormat = function(format) {
 
                     var gndx = 0, group = 0, num = 1, res = {
-                        fstack:         [], // format stack
-                        asterisk:       0, // asterisk?
-                        inactive:       0, // fill empty pages with inactives up to w?
-                        blockwide:      5, // width of number block
-                        current:        3, // position of current element in number block
-                        rights:         0, // num of rights
-                        lefts:          0 // num of lefts
+                        fstack:    [], // format stack
+                        asterisk:  0, // asterisk?
+                        inactive:  0, // fill empty pages with inactives up to w?
+                        blockwide: 5, // width of number block
+                        current:   3, // position of current element in number block
+                        rights:    0, // num of rights
+                        lefts:     0 // num of lefts
                     }, tok, pattern = /[*<>pq\[\]().-]|[nc]+!?/g;
 
                     var known = {
@@ -64,19 +64,19 @@
                                     }
                                 }
 
-                                res.fstack[res.fstack.length] = ({
-                                    ftype: "block",	// type
-                                    fgroup: 0,		// group
-                                    fpos: 0		// pos
+                                res.fstack.push({
+                                    ftype: "block", // type
+                                    fgroup: 0,      // group
+                                    fpos: 0         // pos
                                 });
                                 num = 0;
                             }
 
                         } else {
 
-                            res.fstack[res.fstack.length] = ({
+                            res.fstack.push({
                                 ftype: known[tok], // type
-                                fgroup: group,      // group
+                                fgroup: group,     // group
                                 fpos: undefined === count[tok] ? count[tok] = 1 : ++count[tok] // pos
                             });
 
@@ -90,82 +90,86 @@
                 };
 
                 Paging.opts = $.extend(Paging.opts || {
-                    "lapping"		: 0,	// number of elements overlap
-                    "perpage"           : 10,	// number of elements per page
-                    "page"              : 1,	// current page
-                    "refresh"		: {
+
+                    "lapping": 0, // number of elements overlap
+
+                    "perpage": 10, // number of elements per page
+
+                    "page": 1, // current page
+
+                    "refresh": {
                         "interval": 10,
                         "url": null
-                    },	// refresh callback information
+                    }, // refresh callback information
 
-                    "format"		: "",	// visual format string
+                    "format": "", // visual format string
 
-                    "lock"              : false, // set to true, if you want to disable the pagination for a while. 
-                    
-                    "circular"          : false, // set to true if you want the next/prev buttons go circular
-                    
-                    "onClick"           : null, // Alternative click handler to bypass onSelect mechanism
+                    "lock": false, // set to true, if you want to disable the pagination for a while. 
 
-                    "onFormat"		: function (type) {	// callback for every format element
+                    "circular": false, // set to true if you want the next/prev buttons go circular
+
+                    "onClick": null, // Alternative click handler to bypass onSelect mechanism
+
+                    "onFormat": function(type) {	// callback for every format element
 
                     /** EXAMPLE **
 
-                    switch (type) {
+                        switch (type) {
 
                             case 'block':
 
-                                    if (!this.active)
-                                            return '<span class="disabled">' + this.value + '</span>';
-                                    else if (this.value != this.page)
-                                            return '<em><a href="#' + this.value + '">' + this.value + '</a></em>';
-                                    return '<span class="current">' + this.value + '</span>';
+                                if (!this.active)
+                                    return '<span class="disabled">' + this.value + '</span>';
+                                else if (this.value != this.page)
+                                    return '<em><a href="#' + this.value + '">' + this.value + '</a></em>';
+                                return '<span class="current">' + this.value + '</span>';
 
                             case 'right':
                             case 'left':
 
-                                    if (!this.active) {
-                                            return "";
-                                    }
-                                    return '<a href="#' + this.value + '">' + this.value + '</a>';
+                                if (!this.active) {
+                                    return "";
+                                }
+                                return '<a href="#' + this.value + '">' + this.value + '</a>';
 
                             case 'next':
 
-                                    if (this.active) {
-                                            return '<a href="#' + this.value + '" class="next">Next &raquo;</a>';
-                                    }
-                                    return '<span class="disabled">Next &raquo;</span>';
+                                if (this.active) {
+                                    return '<a href="#' + this.value + '" class="next">Next &raquo;</a>';
+                                }
+                                return '<span class="disabled">Next &raquo;</span>';
 
                             case 'prev':
 
-                                    if (this.active) {
-                                            return '<a href="#' + this.value + '" class="prev">&laquo; Previous</a>';
-                                    }
-                                    return '<span class="disabled">&laquo; Previous</span>';
+                                if (this.active) {
+                                    return '<a href="#' + this.value + '" class="prev">&laquo; Previous</a>';
+                                }
+                                return '<span class="disabled">&laquo; Previous</span>';
 
                             case 'first':
 
-                                    if (this.active) {
-                                            return '<a href="#' + this.value + '" class="first">|&lt;</a>';
-                                    }
-                                    return '<span class="disabled">|&lt;</span>';
+                                if (this.active) {
+                                    return '<a href="#' + this.value + '" class="first">|&lt;</a>';
+                                }
+                                return '<span class="disabled">|&lt;</span>';
 
                             case 'last':
 
-                                    if (this.active) {
-                                            return '<a href="#' + this.value + '" class="prev">&gt;|</a>';
-                                    }
-                                    return '<span class="disabled">&gt;|</span>';
+                                if (this.active) {
+                                    return '<a href="#' + this.value + '" class="prev">&gt;|</a>';
+                                }
+                                return '<span class="disabled">&gt;|</span>';
 
                             case 'fill':
-                                    if (this.active) {
-                                            return "...";
-                                    }
-                    }
-                    return ""; // return nothing for missing branches
+                                if (this.active) {
+                                    return "...";
+                                }
+                        }
+                        return ""; // return nothing for missing branches
 
-                    **/
+                        **/
                     },
-                    "onSelect"		: function (page){	// callback for page selection
+                    "onSelect": function(page) {	// callback for page selection
 
                         /** EXAMPLE SLICE **
 
@@ -181,45 +185,46 @@
 
                         /** EXAMPLE AJAX **
 
-                            $.ajax({
-                                    "url": '/data.php?start=' + this.slice[0] + '&end=' + this.slice[1] + '&page=' + page,
-                                    "success": function(data) {
-                                            // content replace
-                                    }
-                            });
+                        $.ajax({
+                            "url": '/data.php?start=' + this.slice[0] + '&end=' + this.slice[1] + '&page=' + page,
+                            "success": function(data) {
+                                // content replace
+                            }
+                        });
 
-                       **/
+                        **/
 
                         // Return code indicates if the link of the clicked format element should be followed (otherwise only the click-event is used)
                         return true;
                     },
-                    "onRefresh"		: function (json) {// callback for new data of refresh api
+                    "onRefresh": function(json) { // callback for new data of refresh api
 
-                    /** EXAMPLE **
-                    if (json.number) {
+                        /** EXAMPLE **
+                        if (json.number) {
                             Paging.setNumber(json.number);
-                    }
+                        }
 
-                    if (json.options) {
+                        if (json.options) {
                             Paging.setOptions(json.options);
-                    }
+                        }
 
-                    Paging.setPage(); // Call with empty params to reload the paginator
-                    **/
+                        Paging.setPage(); // Call with empty params to reload the paginator
+                        **/
                     }
                 }, opts || {});
 
                 Paging.opts["lapping"]|= 0;
                 Paging.opts["perpage"]|= 0;
                 if (Paging.opts["page"] !== null)
-                Paging.opts["page"]   |= 0;
+                    Paging.opts["page"]|= 0;
 
                 // If the number of elements per page is less then 1, set it to default
                 if (Paging.opts["perpage"] < 1) {
                     Paging.opts["perpage"] = 10;
                 }
 
-                if (Paging.interval) window.clearInterval(Paging.interval);
+                if (Paging.interval)
+                    window.clearInterval(Paging.interval);
 
                 if (Paging.opts["refresh"]["url"]) {
 
@@ -228,7 +233,7 @@
                         $["ajax"]({
                             "url": Paging.opts["refresh"]["url"],
                             "success": function(data) {
-                                
+
                                 if (typeof(data) === "string") {
 
                                     try {
@@ -255,10 +260,10 @@
 
             "setPage": function(page) {
 
-		if (Paging.opts["lock"]) {
+                if (Paging.opts["lock"]) {
                     Paging.opts["onSelect"](0, self);
-		    return Paging;
-		}
+                    return Paging;
+                }
 
                 if (undefined === page) {
 
@@ -293,7 +298,7 @@
                     opts["lapping"] = opts["perpage"] - 1;
                 }
 
-                lapping = number <= opts["lapping"] ? 0 : opts["lapping"]|0;
+                lapping = number <= opts["lapping"] ? 0 : opts["lapping"] | 0;
 
 
                 // If the number is negative, the value doesn"t matter, we loop endlessly with a constant width
@@ -393,27 +398,28 @@
                 }
 
                 data = {
-                    "number"	: number,	// number of elements
-                    "lapping"	: lapping,	// overlapping
-                    "pages"	: pages,	// number of pages
-                    "perpage"	: opts["perpage"], // number of elements per page
-                    "page"	: page,		// current page
-                    "slice"	: [		// two element array with bounds of the current page selection
-                    (tmp = page * (opts["perpage"] - lapping) + lapping) - opts["perpage"], // Lower bound
-                    Math.min(tmp, number) // Upper bound
+                    "number":   number, // number of elements
+                    "lapping":  lapping, // overlapping
+                    "pages":    pages, // number of pages
+                    "perpage":  opts["perpage"], // number of elements per page
+                    "page":     page, // current page
+                    "slice": [ // two element array with bounds of the current page selection
+                        (tmp = page * (opts["perpage"] - lapping) + lapping) - opts["perpage"], // Lower bound
+                        Math.min(tmp, number) // Upper bound
                     ]
                 };
 
                 buffer = "";
-                
+
                 function buffer_append(opts, data, type) {
-                    
+
                     type = "" + (opts["onFormat"].call(data, type));
-                    
-                    if (data["value"])
-                        buffer+= type.replace(/<a/i, '<a data-page="' + data["value"] + '"');
-                    else
-                        buffer+= type;
+
+                    if (data["value"]) {
+                        buffer += type.replace(/<a/i, '<a data-page="' + data["value"] + '"');
+                    } else {
+                        buffer += type;
+                    }
                 }
 
                 while (++i < count) {
@@ -426,70 +432,65 @@
                         case "block":
                             for (; rStart < rStop; ++rStart) {
 
-                                data["value"]      = rStart;
-                                data["pos"]	       = 1 + format.blockwide - rStop + rStart;
+                                data["value"]  = rStart;
+                                data["pos"]    = 1 + format.blockwide - rStop + rStart;
 
-                                data["active"]     = rStart <= pages || number < 0;     // true if infinity series and rStart <= pages
-                                data["first"]      = 1 === rStart;                      // check if it is the first page
-                                data["last"]       = rStart === pages && 0 < number;    // false if infinity series or rStart != pages
+                                data["active"] = rStart <= pages || number < 0;     // true if infinity series and rStart <= pages
+                                data["first"]  = 1 === rStart;                      // check if it is the first page
+                                data["last"]   = rStart === pages && 0 < number;    // false if infinity series or rStart != pages
 
                                 buffer_append(opts, data, node.ftype);
                             }
                             continue;
 
                         case "left":
-                            data["value"]      = node.fpos;
-                            data["active"]     = node.fpos < rStart; // Don't take group-visibility into account!
+                            data["value"]  = node.fpos;
+                            data["active"] = node.fpos < rStart; // Don't take group-visibility into account!
                             break;
 
                         case "right":
-                            data["value"]      = pages - format.rights + node.fpos;
-                            data["active"]     = rStop <= data["value"]; // Don't take group-visibility into account!
+                            data["value"]  = pages - format.rights + node.fpos;
+                            data["active"] = rStop <= data["value"]; // Don't take group-visibility into account!
                             break;
 
                         case "first":
-                            data["value"]      = 1;
-                            data["active"]     = tmp && 1 < page;
+                            data["value"]  = 1;
+                            data["active"] = tmp && 1 < page;
                             break;
-                            
+
                         case "prev":
-                            if (opts["circular"]) {
-                                data["value"]      = page === 1 ? pages : page - 1;
-                                data["active"] = true;
+                            if ((data["active"] = opts["circular"])) {
+                                data["value"]   = page === 1 ? pages : page - 1;
                             } else {
-                                data["value"]      = Math.max(1, page - 1);
-                                data["active"]     = tmp && 1 < page;                             
+                                data["value"]   = Math.max(1, page - 1);
+                                data["active"]  = tmp && 1 < page;
                             }
                             break;
 
                         case "last":
-                                if ((data["active"]	   = (number < 0))) {
-                                    data["value"]      = 1 + page;
-                                } else {
-                                    data["value"]      = pages;
-                                    data["active"]     = tmp && page < pages;
-                                }
-                            break;
-                            
-                        case "next":
-                            
-                            if (opts["circular"]) {
-                                data["active"] = true;
-                                data["value"] = 1+(page) % pages;
+                            if ((data["active"] = (number < 0))) {
+                                data["value"]   = 1 + page;
                             } else {
-                                if ((data["active"]	   = (number < 0))) {
-                                    data["value"]      = 1 + page;
-                                } else {
-                                    data["value"]      = Math.min(1 + page, pages);
-                                    data["active"]     = tmp && page < pages;
-                                }
+                                data["value"]   = pages;
+                                data["active"]  = tmp && page < pages;
+                            }
+                            break;
+
+                        case "next":
+                            if ((data["active"] = opts["circular"])) {
+                                data["value"]  = 1 + page % pages;
+                            } else if ((data["active"] = (number < 0))) {
+                                data["value"]   = 1 + page;
+                            } else {
+                                data["value"]   = Math.min(1 + page, pages);
+                                data["active"]  = tmp && page < pages;
                             }
                             break;
 
                         case "leap":
                         case "fill":
-                            data["pos"]        = node.fpos;
-                            data["active"]     = tmp; // tmp is true by default and changes only for group behaviour
+                            data["pos"]    = node.fpos;
+                            data["active"] = tmp; // tmp is true by default and changes only for group behaviour
                             buffer_append(opts, data, node.ftype);
                             continue;
                     }
@@ -500,7 +501,7 @@
 
                     buffer_append(opts, data, node.ftype);
                 }
-                
+
                 if (self.length) {
 
                     $("a", self["html"](buffer)).click(opts['onClick'] || function(ev) {
@@ -524,10 +525,10 @@
                     });
 
                     Paging.locate = opts["onSelect"].call({
-                        "number"	: number,
-                        "lapping"	: lapping,
-                        "pages"		: pages,
-                        "slice"		: data["slice"]
+                        "number":   number,
+                        "lapping":  lapping,
+                        "pages":    pages,
+                        "slice":    data["slice"]
                     }, page, self);
                 }
                 return Paging;
@@ -535,9 +536,9 @@
         };
 
         return Paging
-        ["setNumber"](number)
-        ["setOptions"](opts)
-        ["setPage"]();
+                ["setNumber"](number)
+                ["setOptions"](opts)
+                ["setPage"]();
     };
 
 }(jQuery, this));
