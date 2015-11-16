@@ -102,6 +102,8 @@
 
                     "lock"              : false, // set to true, if you want to disable the pagination for a while. 
                     
+                    "circular"          : false, // set to true if you want the next/prev buttons go circular
+                    
                     "onClick"           : null, // Alternative click handler to bypass onSelect mechanism
 
                     "onFormat"		: function (type) {	// callback for every format element
@@ -451,25 +453,36 @@
                             break;
                             
                         case "prev":
-                            data["value"]      = Math.max(1, page - 1);
-                            data["active"]     = tmp && 1 < page;
+                            if (opts["circular"]) {
+                                data["value"]      = page === 1 ? pages : page - 1;
+                                data["active"] = true;
+                            } else {
+                                data["value"]      = Math.max(1, page - 1);
+                                data["active"]     = tmp && 1 < page;                             
+                            }
                             break;
 
                         case "last":
-                            if ((data["active"]	   = (number < 0))) {
-                                data["value"]      = 1 + page;
-                            } else {
-                                data["value"]      = pages;
-                                data["active"]     = tmp && page < pages;
-                            }
+                                if ((data["active"]	   = (number < 0))) {
+                                    data["value"]      = 1 + page;
+                                } else {
+                                    data["value"]      = pages;
+                                    data["active"]     = tmp && page < pages;
+                                }
                             break;
                             
                         case "next":
-                            if ((data["active"]	   = (number < 0))) {
-                                data["value"]      = 1 + page;
+                            
+                            if (opts["circular"]) {
+                                data["active"] = true;
+                                data["value"] = 1+(page) % pages;
                             } else {
-                                data["value"]      = Math.min(1 + page, pages);
-                                data["active"]     = tmp && page < pages;
+                                if ((data["active"]	   = (number < 0))) {
+                                    data["value"]      = 1 + page;
+                                } else {
+                                    data["value"]      = Math.min(1 + page, pages);
+                                    data["active"]     = tmp && page < pages;
+                                }
                             }
                             break;
 
