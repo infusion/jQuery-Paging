@@ -100,6 +100,7 @@
 
                     "format"		: "",	// visual format string
 
+                    "circular"          : false, // set to true, if you want to circulate navigation. 
                     "lock"              : false, // set to true, if you want to disable the pagination for a while. 
                     
                     "onClick"           : null, // Alternative click handler to bypass onSelect mechanism
@@ -267,7 +268,11 @@
                     }
 
                 } else if (Paging.opts["page"] == page) { // Necessary to be ==, not ===
-                    return Paging;
+                    if(!Paging.opts["circular"]) {
+	                    return Paging;
+	                }
+					
+					page = page === 1 ? Paging.number : 1;
                 }
 
                 Paging.opts["page"] = (page|= 0);
