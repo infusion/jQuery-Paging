@@ -1,0 +1,63 @@
+<html>
+
+    <head>
+        <title>jQuery Paging Test</title>
+    </head>
+
+    <body>
+
+        <div id="paging"></div>
+
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="../jquery.paging.min.js"></script>
+        <script>
+
+            /*
+             * Paging has a lock attribute, which allows the pager to temporarily stop working
+             */
+            var pager = $("#paging").paging(40, {
+                
+              // Set up easy format
+              format: "<->",
+              
+              // As long as pager is locked, onSelect will be called with page "0"
+              onSelect: function(page) {
+                alert("You're on page #" + page);
+              },
+              
+              // Typical onFormat handler
+              onFormat: function(type) {
+
+                switch (type) {
+
+                  case 'next':
+
+                    if (this.active) {
+                      return '<a href="#' + this.value + '" class="next">&raquo;</a>';
+                    }
+                    return '<span class="disabled">&raquo;</span>';
+
+                  case 'prev':
+
+                    if (this.active) {
+                      return '<a href="#' + this.value + '" class="prev">&laquo;</a>';
+                    }
+                    return '<span class="disabled">&laquo;</span>';
+
+                  case 'fill':
+                    return this.page + "/" + this.pages;
+
+                }
+                return ""; // return nothing for missing branches
+              }
+            });
+
+            pager.setOptions({
+              // Don't work anymore :)
+              lock: true
+            });
+
+        </script>
+
+    </body>
+</html>

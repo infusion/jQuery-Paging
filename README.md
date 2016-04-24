@@ -1,9 +1,9 @@
-jQuery Paging Plugin
+jQuery Pagination Plugin
 ====================
 
 Description
 -----------
-The jQuery Paging plugin aims to be simple as possible by a native callback design, which in turn allows to design a pagination navigation in almost every feasible variation.
+The jQuery Paging plugin aims to be as simple as possible by a native callback design, which in turn allows to design a pagination navigation in almost every feasible variation.
 
 Usage
 -----
@@ -38,7 +38,34 @@ $(".pagination").paging(1337, { // make 1337 elements navigatable
 });
 ```
 
-The strength of the library is that every parameter you would need is pre calculated and accessable via the "this"-object inside the callbacks. The most important part is the nncnn-block.
+The strength of the library is that every parameter you would need is pre calculated and accessable via the `this`-object inside the callbacks. The most important part is the `nncnn`-block.
+
+Options
+=====
+
+- perpage: The number of elements per page
+- page: The current page to start on
+- format: A format string, look at Format
+- lock: Boolean to lock/disable the pager for a while (see examples/lock.html)
+- lapping: The number of elements to overlap over the coming pages. 
+- circular: Boolean if next/prev buttons are allowed to go circular
+- onClick: Raw callback to be called instead of the `onSelect` precedure (see examples/onclick.html)
+- onFormat: Called for every `format` directive. See Format
+- refresh: `timeout` and `url` to be called periodically for updates. 
+- onRefresh: Callback to be called for every refresh interval. (see jquery.paging.js)
+
+
+onSelect Callback
+=====
+
+Every onSelect callback gets a lot of pre-calculated information on the `this` object:
+
+- number: The number of elements, configured
+- lapping: The number of elements overlapping, configured
+- pages: Number of pages
+- perpage: Number of elements per page
+- page: Current page on
+- slice: Two element array with bounds to slice elements on the current page (see examples/slice.html)
 
 
 Format

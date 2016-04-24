@@ -1,0 +1,65 @@
+<html>
+
+    <head>
+        <title>jQuery Paging Test</title>
+    </head>
+
+    <body>
+
+        <div id="paging"></div>
+        <div id="page"></div>
+
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="../jquery.paging.min.js"></script>
+        <script>
+
+            /*
+             * Paging with a negative number of elements loops the pager endlessly
+             */
+            var pager = $("#paging").paging(-1, {
+
+              // Set up easy format
+              format: "< nncnn >",
+        
+              onSelect: function(page) {
+                $("#page").html(page);
+              },
+              // Typical onFormat handler
+              onFormat: function(type) {
+
+                switch (type) {
+
+                  case 'block':
+
+                    if (!this.active)
+                      return '<span class="disabled">' + this.value + '</span>';
+                    else if (this.value != this.page)
+                      return '<em><a href="#' + this.value + '">' + this.value + '</a></em>';
+                    return '<span class="current">' + this.value + '</span>';
+
+                  case 'next':
+
+                    if (this.active) {
+                      return '<a href="#' + this.value + '" class="next">&raquo;</a>';
+                    }
+                    return '<span class="disabled">&raquo;</span>';
+
+                  case 'prev':
+
+                    if (this.active) {
+                      return '<a href="#' + this.value + '" class="prev">&laquo;</a>';
+                    }
+                    return '<span class="disabled">&laquo;</span>';
+
+                  case 'fill':
+                    return this.page + "/" + this.pages;
+
+                }
+                return ""; // return nothing for missing branches
+              }
+            });
+
+        </script>
+
+    </body>
+</html>
