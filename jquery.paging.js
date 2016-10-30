@@ -313,6 +313,7 @@
                 } else {
 
                     /* Calculate the number of pages
+                     * http://www.xarg.org/2016/10/derivation-of-pagination-calculation/
                      *
                      * Variables:
                      * - n: Number of elements
