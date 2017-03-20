@@ -189,4 +189,5 @@ The library is aggressively size optimized and works best with Closure-Compiler 
 
 License
 ======
+Copyright (c) 2013, [Robert Eisele](http://www.xarg.org/)
 Dual licensed under the MIT or GPL Version 2 licenses.
