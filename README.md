@@ -67,6 +67,7 @@ Every onSelect callback gets a lot of pre-calculated information on the `this` o
 - page: Current page on
 - slice: Two element array with bounds to slice elements on the current page (see examples/slice.html)
 
+The return code of `onSelect` indicates if the link of the clicked format element should be followed (otherwise only the click-event is used)
 
 Format
 ======
