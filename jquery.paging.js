@@ -96,6 +96,8 @@
                     "perpage": 10, // number of elements per page
 
                     "page": 1, // current page
+                    
+                    "stepwidth": 1, // stepwidth for prev/next -> if = 0 then blockwise steps
 
                     "refresh": {
                         "interval": 10,
@@ -315,34 +317,6 @@
                     /* Calculate the number of pages
                      * http://www.xarg.org/2016/10/derivation-of-pagination-calculation/
                      *
-                     * Variables:
-                     * - n: Number of elements
-                     * - p: Elements per page
-                     * - o: Offset (lapping)
-                     * - x: Position of last n (aka virtual number of elements)
-                     * - m: Height aka number of pages
-                     *
-                     * Condition: o < p
-                     *
-                     * Page             Last element of page
-                     * =====================================
-                     * 1                p
-                     * 2                2p - o
-                     * 3                3p - 2o
-                     * ...
-                     * k                kp - (k - 1)o
-                     * k + 1            (k + 1)p - ko
-                     *
-                     *  => kp - (k - 1)o < n <= (k + 1)p - ko       (n is on page k+1)
-                     * <=> k(p - o) + o < n <= k(p - o) + p
-                     * <=> (n - p) / (p - o) <= k < (n - o) / (p - o)
-                     *  => k = ceil((n - p) / (p - o))
-                     *
-                     * We know that kp - ko + i = n
-                     *  => i = n - k(p - o)
-                     *
-                     *  => m = k + 1
-                     *     x = kp + i
                      */
                     pages = 1 + Math.ceil((number - opts["perpage"]) / (opts["perpage"] - lapping));
 
@@ -454,36 +428,52 @@
                             data["active"] = rStop <= data["value"]; // Don't take group-visibility into account!
                             break;
 
+                        case "prev":
+                        case "next":
+                          
+                            var p_ = 0;
+                            
+                            if (opts["stepwidth"] === 0) {
+                              
+                              if (node.ftype === "next") {
+
+                                if (page <= format.current) {
+                                  p_ = format.current + format.blockwide;
+                                } else {
+                                  p_ = page + format.blockwide;
+                                }
+                                
+                              } else {
+                                p_ = page - format.blockwide;
+                              }
+                              
+                            } else {
+                              p_ = node.ftype ==="next" ? page + opts["stepwidth"] : page - opts["stepwidth"];
+                            }
+                            
+                            if (opts["circular"]) {
+                                data["active"] = 1;
+                                data["value"]  = 1 + (pages + p_ - 1) % pages;
+                            } else if (node.ftype === "next" && number < 0) { // if type=next and infinity navigation
+                                data["active"] = 1;
+                                data["value"]  = p_;
+                            } else {
+                                data["value"]  = Math.max(1, Math.min(p_, pages));
+                                data["active"] = tmp && 1 < page && page < pages;
+                            }
+                            break;
+
                         case "first":
                             data["value"]  = 1;
                             data["active"] = tmp && 1 < page;
                             break;
 
-                        case "prev":
-                            if ((data["active"] = opts["circular"])) {
-                                data["value"]   = page === 1 ? pages : page - 1;
-                            } else {
-                                data["value"]   = Math.max(1, page - 1);
-                                data["active"]  = tmp && 1 < page;
-                            }
-                            break;
-
                         case "last":
-                            if ((data["active"] = (number < 0))) {
+                            if (number < 0) {
+                                data["active"]  = 1;
                                 data["value"]   = 1 + page;
                             } else {
                                 data["value"]   = pages;
-                                data["active"]  = tmp && page < pages;
-                            }
-                            break;
-
-                        case "next":
-                            if ((data["active"] = opts["circular"])) {
-                                data["value"]  = 1 + page % pages;
-                            } else if ((data["active"] = (number < 0))) {
-                                data["value"]   = 1 + page;
-                            } else {
-                                data["value"]   = Math.min(1 + page, pages);
                                 data["active"]  = tmp && page < pages;
                             }
                             break;

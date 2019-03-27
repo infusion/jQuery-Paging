@@ -3,7 +3,7 @@
     <head>
         <title>jQuery Paging Test</title>
         <style>
-            
+
             a {
                 margin: 2px
             }
@@ -14,29 +14,35 @@
         <div id="pagination"></div>
 
         <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-        <script src="../jquery.paging.min.js"></script>
+        <script src="../jquery.paging.js"></script>
 
         <script>
 
             $("#pagination").paging(1337, {
-                format: '[< ncnnn >]',
-                onSelect: function(page) {
-                    // add code which gets executed when user selects a page
-                },
-                onFormat: function(type) {
-                    switch (type) {
-                        case 'block': // n and c
-                            return '<a href="#">' + this.value + '</a>';
-                        case 'next': // >
-                            return '<a href="#">&gt;</a>';
-                        case 'prev': // <
-                            return '<a href="#">&lt;</a>';
-                        case 'first': // [
-                            return '<a href="#">first</a>';
-                        case 'last': // ]
-                            return '<a href="#">last</a>';
+              format: '[< nncnn >]',
+              stepwidth: 0, // =0 means blockwise next/prev steps
+              onSelect: function(page) {
+                // add code which gets executed when user selects a page
+                console.log(page);
+              },
+              onFormat: function(type) {
+                switch (type) {
+                  case 'block': // n and c
+                    if (this.page === this.value) {
+                      return '<span>' + this.value + '</span>';
+                    } else {
+                      return '<a href="#">' + this.value + '</a>';
                     }
+                  case 'next': // >
+                    return '<a href="#">&gt;</a>';
+                  case 'prev': // <
+                    return '<a href="#">&lt;</a>';
+                  case 'first': // [
+                    return '<a href="#">first</a>';
+                  case 'last': // ]
+                    return '<a href="#">last</a>';
                 }
+              }
             });
 
         </script>

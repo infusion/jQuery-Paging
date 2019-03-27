@@ -49,6 +49,7 @@ Options
 - lock: Boolean to lock/disable the pager for a while (see examples/lock.html)
 - lapping: The number of elements to overlap over the coming pages, [see](http://www.xarg.org/2016/10/derivation-of-pagination-calculation/). 
 - circular: Boolean if next/prev buttons are allowed to go circular
+- stepwidth: Number of steps prev/next has to go. Default=1. =0 Gives blockwise steps
 - onClick: Raw callback to be called instead of the `onSelect` precedure (see examples/onclick.html)
 - onFormat: Called for every `format` directive. See Format
 - refresh: `timeout` and `url` to be called periodically for updates. 
