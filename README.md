@@ -21,7 +21,7 @@ $(".pagination").paging(1337, { // make 1337 elements navigatable
 		// add code which gets executed when user selects a page, how about $.ajax() or $(...).slice()?
 		console.log(this);
 	},
-	onFormat: function (type) {
+	onFormat: function (type) { // Gets called for each character of "format" and returns a HTML representation
 		switch (type) {
 		case 'block': // n and c
 			return '<a href="#">' + this.value + '</a>';
