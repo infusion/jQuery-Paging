@@ -1,5 +1,5 @@
 /**
- * @license jQuery paging plugin v1.3.0 23/06/2014
+ * @license jQuery paging plugin v1.3.1 23/06/2014
  * http://www.xarg.org/2011/09/jquery-pagination-revised/
  *
  * Copyright (c) 2011, Robert Eisele (robert@xarg.org)
