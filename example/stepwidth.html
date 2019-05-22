@@ -1,0 +1,46 @@
+<html>
+
+    <head>
+        <title>jQuery Paging Test</title>
+        <style>
+
+            a {
+                margin: 2px
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="pagination"></div>
+
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="../jquery.paging.min.js"></script>
+
+        <script>
+
+            $("#pagination").paging(1337, {
+              format: '< nncnn >',
+              stepwidth: 10, // =0 means blockwise next/prev steps
+              onSelect: function(page) {
+                // add code which gets executed when user selects a page
+                console.log(page);
+              },
+              onFormat: function(type) {
+                switch (type) {
+                  case 'block': // n and c
+                    if (this.page === this.value) {
+                      return '<span>' + this.value + '</span>';
+                    } else {
+                      return '<a href="#">' + this.value + '</a>';
+                    }
+                  case 'next': // >
+                    return '<a href="#">[+10]</a>';
+                  case 'prev': // <
+                    return '<a href="#">[-10]</a>';
+                }
+              }
+            });
+
+        </script>
+    </body>
+</html>
