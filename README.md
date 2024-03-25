@@ -47,7 +47,7 @@ Options
 - page: The current page to start on
 - format: A format string, look at Format
 - lock: Boolean to lock/disable the pager for a while (see examples/lock.html)
-- lapping: The number of elements to overlap over the coming pages, [see](http://www.xarg.org/2016/10/derivation-of-pagination-calculation/). 
+- lapping: The number of elements to overlap over the coming pages, see the [mathematical derivation](https://raw.org/article/derivation-of-pagination-calculation/). 
 - circular: Boolean if next/prev buttons are allowed to go circular
 - stepwidth: Number of steps prev/next has to go. Default=1. =0 Gives blockwise steps
 - onClick: Raw callback to be called instead of the `onSelect` precedure (see examples/onclick.html)
@@ -182,7 +182,7 @@ Further examples and documentation
 ==========================
 For further details and code examples take a look at the demonstration and documentation page on:
 
-http://www.xarg.org/2011/09/jquery-pagination-revised/
+[jQuery Pagination](https://raw.org/article/jquery-pagination-revised/)
 
 Build
 =====
@@ -191,5 +191,5 @@ The library is aggressively size optimized and works best with Closure-Compiler 
 
 License
 ======
-Copyright (c) 2013, [Robert Eisele](http://www.xarg.org/)
+Copyright (c) 2013, [Robert Eisele](https://raw.org/)
 Dual licensed under the MIT or GPL Version 2 licenses.
